@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+</head>
+<body>
+    <h1>로그인</h1>
+
+    <!-- 플래시 메시지 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li style="color: {% if category == 'danger' %}red{% else %}green{% endif %};">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <p>현재 세션 ID: {{ session_id }}</p>
+
+    {% if session_id %}  <!-- 쿠키에 있는 것 뿐만 아니라 실제 유효성 검증이 True인지 받아와야함-->
+        <!-- 로그아웃 폼 -->
+        <form method="GET" action="/logout">
+            <p>로그인 상태입니다.</p>
+            <button type="submit">로그아웃</button>
+        </form>
+
+        <a href="/upload">이미지 페이지 가기</a>
+    {% endif %}
+
+    <!-- 로그인 폼 -->
+    <form method="POST" action="/login">
+        <label for="user_id">아이디:</label>
+        <input type="text" id="user_id" name="user_id" required>
+        <br><br>
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+
+        <button type="submit">로그인</button>
+    </form>
+
+    <p>계정이 없으신가요? <a href="/register">회원가입</a></p>
+</body>
+</html>
